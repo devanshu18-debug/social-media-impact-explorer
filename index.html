@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef3f1">
+  <title>Social Signal — Student wellbeing explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Social Signal home">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span>social<span class="brand-light">signal</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="service-status"><i id="status-dot"></i><span id="status-text">Checking model</span></span>
+        <a class="docs-link" href="/docs" target="_blank" rel="noreferrer">API docs <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> STUDENT WELLBEING · MODEL DEMO</p>
+          <h1>Make sense of<br><em>social patterns.</em></h1>
+          <p class="hero-description">Explore how a student’s everyday habits relate to wellbeing estimates in this educational model.</p>
+          <div class="hero-note"><span class="note-icon">✳</span><span>Designed for exploration, not diagnosis.</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+          <div class="art-core"><span class="core-spark">✦</span></div>
+          <span class="art-dot dot-one"></span><span class="art-dot dot-two"></span><span class="art-dot dot-three"></span>
+          <div class="art-label label-top">daily habits</div>
+          <div class="art-label label-bottom">wellbeing signals</div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Prediction tool">
+        <form id="student-form" class="form-card">
+          <div class="section-heading">
+            <div><p class="eyebrow small">YOUR EXAMPLE</p><h2>Student profile</h2></div>
+            <span class="step-badge">01 <span>/ 02</span></span>
+          </div>
+          <p class="form-intro">Enter a sample profile to see what the model estimates. All fields are required.</p>
+
+          <div class="field-grid">
+            <label class="field"><span>Age</span><input name="Age" type="number" min="10" max="100" value="20" required></label>
+            <label class="field"><span>Gender</span><select name="Gender" required><option>Female</option><option>Male</option><option>Non-Binary</option><option>Prefer not to say</option><option>Other</option></select></label>
+            <label class="field"><span>Academic level</span><select name="Academic_Level" required><option>Undergraduate</option><option>High School</option><option>Postgraduate</option></select></label>
+            <label class="field"><span>Primary platform</span><select name="Primary_Platform" required><option>Instagram</option><option>TikTok</option><option>YouTube</option><option>Snapchat</option><option>LinkedIn</option><option>Reddit</option><option>X (Twitter)</option></select></label>
+            <label class="field"><span>Daily use <small>hours</small></span><input name="Daily_Usage_Hours" type="number" min="0" max="24" step="0.1" value="8" required></label>
+            <label class="field"><span>Extra weekend use <small>hours</small></span><input name="Weekend_Extra_Hours" type="number" min="0" max="24" step="0.1" value="2" required></label>
+            <label class="field"><span>Device</span><select name="Device_Type" required><option>Smartphone</option><option>Laptop/PC</option><option>Tablet</option></select></label>
+            <label class="field"><span>Sleep duration <small>hours</small></span><input name="Sleep_Duration_Hours" type="number" min="0" max="24" step="0.1" value="5.5" required></label>
+            <label class="field"><span>Sleep quality <small>1–5</small></span><input name="Sleep_Quality_Score" type="number" min="1" max="5" step="1" value="2" required></label>
+            <label class="field"><span>Social comparison</span><select name="Social_Comparison_Frequency" required><option>Never</option><option>Rarely</option><option>Sometimes</option><option selected>Frequently</option><option>Always</option></select></label>
+          </div>
+
+          <label class="toggle-row" for="late-night">
+            <span class="toggle-copy"><strong>Late-night social media use</strong><small>Does the student use social media late at night?</small></span>
+            <span class="toggle"><input id="late-night" name="Late_Night_Usage" type="checkbox" checked><span class="toggle-track"></span></span>
+          </label>
+
+          <button class="submit-button" type="submit"><span class="button-label">Explore estimate</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+          <p class="privacy-note"><span aria-hidden="true">⌁</span> This demo processes your example to return a prediction and does not save it.</p>
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+        </form>
+
+        <aside class="result-card" aria-live="polite">
+          <div class="section-heading result-heading">
+            <div><p class="eyebrow small">MODEL OUTPUT</p><h2>Your estimate</h2></div>
+            <span class="step-badge">02 <span>/ 02</span></span>
+          </div>
+          <div id="empty-state" class="empty-state">
+            <div class="empty-illustration"><span>✳</span><i></i><b></b></div>
+            <h3>Your results will appear here</h3>
+            <p>Complete the profile and choose <strong>Explore estimate</strong> to see the model output.</p>
+          </div>
+          <div id="result-state" class="result-state" hidden>
+            <div class="impact-label">Predicted overall impact</div>
+            <div id="impact-value" class="impact-value">—</div>
+            <div class="score-panel">
+              <div class="score-top"><span>Predicted mental health index</span><span class="score-range">dataset scale</span></div>
+              <div class="score-number"><span id="mental-score">—</span><small>/ 100</small></div>
+              <div class="score-track"><span id="score-fill"></span></div>
+            </div>
+            <div class="probability-section">
+              <div class="probability-title"><span>Class probabilities</span><span>MODEL CONFIDENCE</span></div>
+              <div id="probabilities"></div>
+            </div>
+            <div class="result-footnote">Estimates reflect patterns in the training data. They do not show that social media caused an outcome.</div>
+          </div>
+          <div class="result-footer"><span class="footer-spark">✳</span><span>One data point is not the whole story.</span></div>
+        </aside>
+      </section>
+    </main>
+    <footer class="site-footer"><span>Social Signal <span class="footer-dot">·</span> Student wellbeing model</span><span>Educational demo <span class="footer-dot">·</span> Not a diagnosis</span></footer>
+  </div>
+</body>
+</html>
